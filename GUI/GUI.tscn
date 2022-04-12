@@ -1,0 +1,55 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://GUI/guiTheme1.tres" type="Theme" id=1]
+[ext_resource path="res://GUI/Main.gd" type="Script" id=2]
+
+[node name="GUI" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+
+[node name="BgRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.0862745, 0.0862745, 0.0862745, 1 )
+
+[node name="GenerateButton" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -112.0
+margin_top = -65.0
+margin_right = 112.0
+margin_bottom = -35.0
+theme = ExtResource( 1 )
+toggle_mode = true
+text = "Begin Conversation"
+
+[node name="OutputText" type="RichTextLabel" parent="."]
+anchor_left = 0.111
+anchor_right = 0.889
+anchor_bottom = 0.77
+margin_left = 0.335991
+margin_top = 40.0
+margin_right = -0.33606
+margin_bottom = 0.199982
+focus_mode = 2
+theme = ExtResource( 1 )
+text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Elementum nibh tellus molestie nunc non. Leo in vitae turpis massa sed elementum tempus. Elit duis tristique sollicitudin nibh sit amet commodo nulla. Vel pharetra vel turpis nunc. Orci porta non pulvinar neque laoreet suspendisse. Nibh praesent tristique magna sit amet purus. At erat pellentesque adipiscing commodo. Nisi quis eleifend quam adipiscing vitae proin sagittis. Felis bibendum ut tristique et egestas quis ipsum suspendisse.
+
+Nibh ipsum consequat nisl vel pretium lectus. Massa tempor nec feugiat nisl pretium fusce. Mi proin sed libero enim sed faucibus turpis in. Feugiat nibh sed pulvinar proin gravida hendrerit. Donec adipiscing tristique risus nec feugiat in fermentum. Consequat nisl vel pretium lectus quam id leo in. Quisque egestas diam in arcu cursus euismod. Odio eu feugiat pretium nibh ipsum consequat nisl vel pretium. Purus semper eget duis at tellus at. Velit ut tortor pretium viverra suspendisse. Accumsan lacus vel facilisis volutpat est velit egestas dui id.
+
+Vitae tempus quam pellentesque nec nam. Ultricies mi quis hendrerit dolor. Sit amet consectetur adipiscing elit. Non curabitur gravida arcu ac tortor dignissim convallis aenean. Iaculis nunc sed augue lacus. Pretium nibh ipsum consequat nisl vel pretium lectus quam. Quam nulla porttitor massa id neque. Nunc lobortis mattis aliquam faucibus. Sed vulputate odio ut enim blandit volutpat maecenas. Vel pretium lectus quam id. Duis tristique sollicitudin nibh sit. Leo vel orci porta non pulvinar neque laoreet suspendisse interdum."
+scroll_following = true
+selection_enabled = true
+
+[node name="HSeperator1" type="HSeparator" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 178.0
+margin_top = 502.0
+margin_right = -179.0
+margin_bottom = -94.0
+
+[connection signal="toggled" from="GenerateButton" to="." method="_on_GenerateButton_toggled"]
