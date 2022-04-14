@@ -14,14 +14,14 @@ var baseIntroductionsDict = {
 	One, {entity1Name}, is {entity1Personality}. The other, {entity2Name}, is {entity2Personality}.
 	"""
 }
-
+# The ability to choose physical attributes, environment, and abilities will be added in version 0.02  
 var entities = {
 	"Entity1" : {
 		"Name" : ["John"],
 		"Personality" : ["Happy"],
 		"Physical" : ["Disembodied"],
 		"Environment" : ["Empty-Void"],
-		"Abilities" : ["Talking"],
+		# "Abilities" : ["Talking"],
 		"personalityTypeProfile" : {},
 		"ActionConcepts" : {}
 	},
@@ -30,7 +30,7 @@ var entities = {
 		"Personality" : ["Grumpy"],
 		"Physical" : ["Disembodied"],
 		"Environment" : ["Empty-Void"],
-		"Abilities" : ["Talking"],
+		# "Abilities" : ["Talking"],
 		"personalityTypeProfile" : {},
 		"ActionConcepts" : {}
 	},
@@ -40,44 +40,56 @@ var entities = {
 #Start with 12
 var actionConcepts = {
 	"Complain": {
+		"referencing_what" : null,
 		"complain_about" : null
 	},
 	"Celebrate": {
+		"referencing_what" : null,
 		"celebrate_what" : null
 	},
 	"Joke": {
+		"referencing_what" : null,
 		"joke_about" : null
 	},
 	"Ponder": {
+		"referencing_what" : null,
 		"ponder_what" : null
 	},
 	"Dismiss": {
+		"referencing_what" : null,
 		"dismiss_what" : null
 	},
 	"Taunt": {
-		"taunt_about" : null,
-		"taunt_who" : null
+		"referencing_what" : null,
+		"taunt_about" : null
 	},
 	"Insult": {
+		"referencing_what" : null,
 		"insult_what" : null,
 		"insult_who" : null
 	},
 	"Choose": {
-		"choice_what" : null,
+		"referencing_what" : null,
+		"choose_what" : null,
 		"options" : [null, null]
 	},
 	"Dodge": {
+		"referencing_what" : null,
 		"dodge_what" : null,
 		"why_dodge" : null,
 	},
 	"Apologize": {
-		"apologize_about" : null,
+		"referencing_what" : null,
+		"apologize_about" : null
 	},
 	"Lie": {
+		"referencing_what" : null,
 		"lie_about" : null,
 	},
 	"Comfort": {
+		"referencing_what" : null,
 		"comfort_concerning" : null
+		
 	}
 }
 
@@ -208,16 +220,26 @@ func _ready():
 	""".format({"hash":rngHash, "seed":rng.seed})
 	)
 	
-	entityAdditionalSetup(entities)
+	entitySetup(entities)
 	
 	addToOutputQueue("introduction", introductionMessageCreator())
 	
 func _process(delta):
 	pass
+	
+func _on_GenerateButton_toggled(button_pressed):	
+	if button_pressed:
+		print("Resuming generation now.")
+		approvalToGenerate = true
+		$GenerateButton.text = "Generating Conversation"
+	elif !button_pressed:
+		print("Stopping generation now.")
+		approvalToGenerate = false
+		$GenerateButton.text = "Generation Paused"
 
 ############################### ENTITY FUNCTIONS ###############################
 
-func entityAdditionalSetup(entityDict):
+func entitySetup(entityDict):
 	entityPersonalityProfileSetup(entityDict)
 	entityActionConceptsSetup(entityDict)
 
@@ -225,7 +247,7 @@ func entityPersonalityProfileSetup(entityDict):
 	var arrayOfEntityNames = returnArrayOfNamesOfAllEntitiesInEntityDict(entityDict)
 	
 	for current_entity in arrayOfEntityNames:
-		entityDict[current_entity]["personalityTypeProfile"] = returnPersonalityProfile(entityDict[current_entity]["Personality"])
+		entityDict[current_entity]["personalityTypeProfile"] = returnPersonalityProfile(entityDict[current_entity]["Personality"]) 
 
 func entityActionConceptsSetup(entityDict):
 	var arrayOfEntityNames = returnArrayOfNamesOfAllEntitiesInEntityDict(entityDict)
@@ -235,8 +257,8 @@ func entityActionConceptsSetup(entityDict):
 		print(entityDict[current_entity]["ActionConcepts"])
 
 func returnFreshActionConceptDict():
-	return actionConcepts 
-	
+	return actionConcepts
+
 func findFinalEntityInEntityDict(entityDict):
 	var finalEntityFound = false
 	var finalEntityNumber = 1
@@ -256,16 +278,6 @@ func returnArrayOfNamesOfAllEntitiesInEntityDict(entityDict):
 
 func returnPersonalityProfile(personality):
 	return personalityTypeProfiles.get(personality[0])
-
-func _on_GenerateButton_toggled(button_pressed):	
-	if button_pressed:
-		print("Resuming generation now.")
-		approvalToGenerate = true
-		$GenerateButton.text = "Generating Conversation"
-	elif !button_pressed:
-		print("Stopping generation now.")
-		approvalToGenerate = false
-		$GenerateButton.text = "Generation Paused"
 
 ############################### OUTPUT FUNCTIONS ###############################
 

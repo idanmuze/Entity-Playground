@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=10 format=2]
+[gd_resource type="Theme" load_steps=11 format=2]
 
 [ext_resource path="res://GUI/Fonts/theboldfont/theboldfont.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://GUI/Fonts/roboto/Roboto-Black.ttf" type="DynamicFontData" id=2]
@@ -31,6 +31,9 @@ corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 corner_detail = 12
 
+[sub_resource type="DynamicFont" id=8]
+font_data = ExtResource( 1 )
+
 [sub_resource type="DynamicFont" id=4]
 size = 25
 use_filter = true
@@ -45,5 +48,6 @@ Button/fonts/font = SubResource( 2 )
 Button/styles/hover = SubResource( 6 )
 Button/styles/normal = SubResource( 3 )
 Button/styles/pressed = SubResource( 7 )
+ItemList/fonts/font = SubResource( 8 )
 RichTextLabel/colors/selection_color = Color( 0.466667, 0, 0.72549, 0.388235 )
 RichTextLabel/fonts/normal_font = SubResource( 4 )
