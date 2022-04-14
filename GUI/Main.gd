@@ -1,19 +1,28 @@
 extends Control
 
+############################### RNG VARIABLES ###############################
 var rng = RandomNumberGenerator.new()
 
-onready var outputStream = $OutputText
-
+############################### PROGRAM STATE VARIABLES ###############################
 var approvalToGenerate = false
 var jobQueue = []
 var programState = null
 
+############################### OUTPUT VARIABLES ###############################
 var baseIntroductionsDict = {
 	"1" : """
 	Two disembodied voices stumble across each other. 
 	One, {entity1Name}, is {entity1Personality}. The other, {entity2Name}, is {entity2Personality}.
 	"""
 }
+
+# Collection of 10 synonyms for every word in each speech dict sentences that it makes sense for.
+# Only compatible strings of words will be stung together.
+var speechDictSynonyms = {
+	
+}
+
+############################### ENTITY VARIABLES ###############################
 # The ability to choose physical attributes, environment, and abilities will be added in version 0.02  
 var entities = {
 	"Entity1" : {
@@ -180,7 +189,7 @@ var personalityTypeProfiles = {
 	},
 }
 
-# Variations of action concepts that are utilized according to the personality type profiles.
+# Variations of action concepts that. Utilized according to the personality type profiles.
 var actionConceptToSpeechDict = {
 	"Complain" : {
 		"severe_complain" : "",
@@ -198,16 +207,8 @@ var actionConceptToSpeechDict = {
 	}
 }
 
-# Collection of 10 synonyms for every word in each speech dict sentences that it makes sense for.
-# Only compatible strings of words will be stung together.
-var speechDictSynonyms = {
-	
-}
-
-### QUEUE JOB TYPES
-# Introduction
-# Conversation
-# Goodbye
+############################### GUI VARIABLES ###############################
+onready var outputStream = $OutputText
 
 ############################### BASE FUNCTIONS ###############################
 func _ready():
@@ -226,6 +227,8 @@ func _ready():
 	
 func _process(delta):
 	pass
+	
+############################### GUI FUNCTIONS ###############################
 	
 func _on_GenerateButton_toggled(button_pressed):	
 	if button_pressed:
@@ -280,6 +283,11 @@ func returnPersonalityProfile(personality):
 	return personalityTypeProfiles.get(personality[0])
 
 ############################### OUTPUT FUNCTIONS ###############################
+
+### QUEUE JOB TYPES
+# Introduction
+# Conversation
+# Goodbye
 
 func performOutputJob(job):
 	outputStream.append_bbcode(job[1])
