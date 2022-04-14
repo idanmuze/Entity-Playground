@@ -22,6 +22,7 @@ var entities = {
 		"Physical" : ["Disembodied"],
 		"Environment" : ["Empty-Void"],
 		"Abilities" : ["Talking"],
+		"personalityTypeProfile" : {},
 		"ActionConcepts" : {}
 	},
 	"Entity2" : {
@@ -30,6 +31,7 @@ var entities = {
 		"Physical" : ["Disembodied"],
 		"Environment" : ["Empty-Void"],
 		"Abilities" : ["Talking"],
+		"personalityTypeProfile" : {},
 		"ActionConcepts" : {}
 	},
 
@@ -37,18 +39,46 @@ var entities = {
 
 #Start with 12
 var actionConcepts = {
-	"Complain": {},
-	"Celebrate": {},
-	"Joke": {},
-	"Ponder": {},
-	"Dismiss": {},
-	"Taunt": {},
-	"Insult": {},
-	"Choose": {},
-	"Dodge": {},
-	"Apologize": {},
-	"Lie": {},
-	"Comfort": {}
+	"Complain": {
+		"complain_about" : null
+	},
+	"Celebrate": {
+		"celebrate_what" : null
+	},
+	"Joke": {
+		"joke_about" : null
+	},
+	"Ponder": {
+		"ponder_what" : null
+	},
+	"Dismiss": {
+		"dismiss_what" : null
+	},
+	"Taunt": {
+		"taunt_about" : null,
+		"taunt_who" : null
+	},
+	"Insult": {
+		"insult_what" : null,
+		"insult_who" : null
+	},
+	"Choose": {
+		"choice_what" : null,
+		"options" : [null, null]
+	},
+	"Dodge": {
+		"dodge_what" : null,
+		"why_dodge" : null,
+	},
+	"Apologize": {
+		"apologize_about" : null,
+	},
+	"Lie": {
+		"lie_about" : null,
+	},
+	"Comfort": {
+		"comfort_concerning" : null
+	}
 }
 
 var personalityTypeProfiles = {
@@ -113,13 +143,13 @@ var personalityTypeProfiles = {
 		"Celebrate": 0.0,
 		"Joke": 0.4,
 		"Ponder": 1.0,
-		"Dismiss": 0.6,
+		"Dismiss": 0.7,
 		"Taunt": 0.0,
 		"Insult": 0.4,
 		"Choose": 0.9,
-		"Dodge": 0.0,
+		"Dodge": 0.4,
 		"Apologize": 0.0,
-		"Lie": 0.0,
+		"Lie": 0.1,
 		"Comfort": 0.0
 	},
 	"Grumpy": {
@@ -128,19 +158,42 @@ var personalityTypeProfiles = {
 		"Joke": 0.0,
 		"Ponder": 0.6,
 		"Dismiss": 0.3,
-		"Taunt": 0.0,
+		"Taunt": 0.6,
 		"Insult": 0.9,
-		"Choose": 0.0,
+		"Choose": 0.2,
 		"Dodge": 0.3,
 		"Apologize": 0.0,
 		"Lie": 0.0,
 		"Comfort": 0.0
 	},
 }
+
+# Cariations of action concepts that are utilized according to the personality type profiles.
+var actionConceptToSpeechDict = {
+	"Complain" : {
+		"severe_complain" : "",
+		"celebratory_complain" : "",
+		"jokey_complain" : "",
+		"ponderous_complain" : "",
+		"dismissive_complain": "",
+		"taunting_complain" : "",
+		"insulting_complain" : "",
+		"choosey_complain" : "",
+		"dodge_complain" : "",
+		"apologetic_complain" : "",
+		"lying_complain" : "",
+		"comforting_complain" : ""
+	}
+}
+
+# Collection of 10 synonyms or every word in each speech dict sentences that it makes sense for.
+# Only compatible strings of words will be stung together.
+var speechDictSynonyms = {
+	
+}
+
 ### QUEUE JOB TYPES
 # Introduction
-# Introduction
-# Segway
 # Conversation
 # Goodbye
 
@@ -150,15 +203,36 @@ func _ready():
 	rng.seed = hash("Godot")
 	print(
 	"""
-	The current seed is a hash of {hash}. 
-	The seed is {seed}.
+	The current seed is a hash of the string: "{hash}" 
+	The resulting seed is: {seed}
 	""".format({"hash":rngHash, "seed":rng.seed})
 	)
+	
+	entityAdditionalSetup(entities)
 	
 	addToOutputQueue("introduction", introductionMessageCreator())
 	
 func _process(delta):
 	pass
+
+func entityAdditionalSetup(entityDict):
+	var finalEntity = findFinalEntityInEntityDict(entityDict)
+	for current_entity in range(1,finalEntity + 1):
+		entityDict["Entity%s" % current_entity]["personalityTypeProfile"] = returnPersonalityProfile(entityDict["Entity%s" % current_entity]["Personality"])
+	
+func findFinalEntityInEntityDict(entityDict):
+	var finalEntityFound = false
+	var finalEntityNumber = 1
+	while !finalEntityFound:
+		if "Entity%s" % finalEntityNumber in entityDict:
+			finalEntityNumber += 1
+		else:
+			finalEntityNumber -= 1
+			finalEntityFound = true
+	return finalEntityNumber
+
+func returnPersonalityProfile(personality):
+	return personalityTypeProfiles.get(personality[0])
 
 func _on_GenerateButton_toggled(button_pressed):	
 	if button_pressed:
