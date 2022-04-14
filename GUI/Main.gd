@@ -168,7 +168,7 @@ var personalityTypeProfiles = {
 	},
 }
 
-# Cariations of action concepts that are utilized according to the personality type profiles.
+# Variations of action concepts that are utilized according to the personality type profiles.
 var actionConceptToSpeechDict = {
 	"Complain" : {
 		"severe_complain" : "",
@@ -186,7 +186,7 @@ var actionConceptToSpeechDict = {
 	}
 }
 
-# Collection of 10 synonyms or every word in each speech dict sentences that it makes sense for.
+# Collection of 10 synonyms for every word in each speech dict sentences that it makes sense for.
 # Only compatible strings of words will be stung together.
 var speechDictSynonyms = {
 	
@@ -197,7 +197,7 @@ var speechDictSynonyms = {
 # Conversation
 # Goodbye
 
-# Called when the node enters the scene tree for the first time.
+############################### BASE FUNCTIONS ###############################
 func _ready():
 	var rngHash = "Godot"
 	rng.seed = hash("Godot")
@@ -215,10 +215,27 @@ func _ready():
 func _process(delta):
 	pass
 
+############################### ENTITY FUNCTIONS ###############################
+
 func entityAdditionalSetup(entityDict):
-	var finalEntity = findFinalEntityInEntityDict(entityDict)
-	for current_entity in range(1,finalEntity + 1):
-		entityDict["Entity%s" % current_entity]["personalityTypeProfile"] = returnPersonalityProfile(entityDict["Entity%s" % current_entity]["Personality"])
+	entityPersonalityProfileSetup(entityDict)
+	entityActionConceptsSetup(entityDict)
+
+func entityPersonalityProfileSetup(entityDict):
+	var arrayOfEntityNames = returnArrayOfNamesOfAllEntitiesInEntityDict(entityDict)
+	
+	for current_entity in arrayOfEntityNames:
+		entityDict[current_entity]["personalityTypeProfile"] = returnPersonalityProfile(entityDict[current_entity]["Personality"])
+
+func entityActionConceptsSetup(entityDict):
+	var arrayOfEntityNames = returnArrayOfNamesOfAllEntitiesInEntityDict(entityDict)
+	
+	for current_entity in arrayOfEntityNames:
+		entityDict[current_entity]["ActionConcepts"] = returnFreshActionConceptDict()
+		print(entityDict[current_entity]["ActionConcepts"])
+
+func returnFreshActionConceptDict():
+	return actionConcepts 
 	
 func findFinalEntityInEntityDict(entityDict):
 	var finalEntityFound = false
@@ -230,6 +247,12 @@ func findFinalEntityInEntityDict(entityDict):
 			finalEntityNumber -= 1
 			finalEntityFound = true
 	return finalEntityNumber
+
+func returnArrayOfNamesOfAllEntitiesInEntityDict(entityDict):
+	var arrayOfNamesOfAllEntitiesInEntityDict = []
+	for entityNum in range(1, findFinalEntityInEntityDict(entityDict) + 1):
+		arrayOfNamesOfAllEntitiesInEntityDict.append("Entity%s" % entityNum)
+	return arrayOfNamesOfAllEntitiesInEntityDict
 
 func returnPersonalityProfile(personality):
 	return personalityTypeProfiles.get(personality[0])
@@ -243,7 +266,8 @@ func _on_GenerateButton_toggled(button_pressed):
 		print("Stopping generation now.")
 		approvalToGenerate = false
 		$GenerateButton.text = "Generation Paused"
-		
+
+############################### OUTPUT FUNCTIONS ###############################
 
 func performOutputJob(job):
 	outputStream.append_bbcode(job[1])
@@ -273,6 +297,8 @@ func _on_QueueWorkerCheckForWorkTimer_timeout():
 		print("Approval to generate is: %s" % approvalToGenerate)
 
 func introductionMessageCreator():
+	# Will be updated in version 0.02 to support an arbitrary amount of entities.
+		
 	return baseIntroductionsDict["1"].format({
 		"entity1Name" : entities["Entity1"]["Name"][0],
 		"entity1Personality" : entities["Entity1"]["Personality"][0],
