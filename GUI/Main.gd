@@ -1,12 +1,36 @@
 extends Control
 
+############################### METADATA ###############################
+const app_name = "Entity-Playground"
+const app_version = "v0.01"
+const app_description = "A procedural cinematic dialogue generation tool created in Godot."
+
+var welcome_message = """Welcome to {app_name} {app_version}.\n{app_description}\n""".format({"app_name":app_name, "app_version":app_version, "app_description":app_description})
+	
+
 ############################### RNG VARIABLES ###############################
 var rng = RandomNumberGenerator.new()
+var rngHash = "Godot"
+
+var rng_message = """The current RNG seed is a hash of the string: "{hash}"\nThe resulting RNG seed is: {seed}\n""".format({"hash":rngHash, "seed":rng.seed})
 
 ############################### PROGRAM STATE VARIABLES ###############################
+var queueCheckForWorkTimerTimeoutCounter = 0
 var approvalToGenerate = false
 var jobQueue = []
-var programState = null
+
+var program_states = [
+	"entering_entity_values", 
+	"waiting_to_generate",
+	"generating", 
+	"generation_paused", 
+	"conversation_completed"]
+var current_program_state
+
+var selection_filled_states = [false, false, false, false]
+
+
+
 
 ############################### OUTPUT VARIABLES ###############################
 var baseIntroductionsDict = {
@@ -16,7 +40,7 @@ var baseIntroductionsDict = {
 	"""
 }
 
-# Collection of 10 synonyms for every word in each speech dict sentences that it makes sense for.
+# Collection of 10 synonyms for every non-trivial word in each Action Concept Speech Dictionary.
 # Only compatible strings of words will be stung together.
 var speechDictSynonyms = {
 	
@@ -26,8 +50,8 @@ var speechDictSynonyms = {
 # The ability to choose physical attributes, environment, and abilities will be added in version 0.02  
 var entities = {
 	"Entity1" : {
-		"Name" : ["John"],
-		"Personality" : ["Happy"],
+		"Name" : [],
+		"Personality" : [],
 		"Physical" : ["Disembodied"],
 		"Environment" : ["Empty-Void"],
 		# "Abilities" : ["Talking"],
@@ -35,8 +59,8 @@ var entities = {
 		"ActionConcepts" : {}
 	},
 	"Entity2" : {
-		"Name" : ["Jane"],
-		"Personality" : ["Grumpy"],
+		"Name" : [],
+		"Personality" : [],
 		"Physical" : ["Disembodied"],
 		"Environment" : ["Empty-Void"],
 		# "Abilities" : ["Talking"],
@@ -46,7 +70,7 @@ var entities = {
 
 }
 
-#Start with 12
+# 12 for now. More will be added in version 0.02
 var actionConcepts = {
 	"Complain": {
 		"referencing_what" : null,
@@ -189,6 +213,10 @@ var personalityTypeProfiles = {
 	},
 }
 
+var topicPersonalityProfiles = {
+	
+}
+
 # Variations of action concepts that. Utilized according to the personality type profiles.
 var actionConceptToSpeechDict = {
 	"Complain" : {
@@ -210,41 +238,124 @@ var actionConceptToSpeechDict = {
 ############################### GUI VARIABLES ###############################
 onready var outputStream = $OutputText
 
+onready var selectionMenu = $SelectionMenu
+onready var generateButton = $GenerateButton
+
+# WILL HAVE TO BE REWRITTEN FOR THE NON-GUI AND API VERSIONS
+var allInputNames = {
+	"0" : "",
+	"1" : ""
+}
+
+# var allInputPersonalities = []
+
+onready var entity1NameEntry = $SelectionMenu/entity1Block/entityNameEntry
+onready var entity1PersonalityEntry = $SelectionMenu/entity1Block/entityPersonalityEntry
+
+
+onready var entity2NameEntry = $SelectionMenu/entity2Block/entityNameEntry
+onready var entity2PersonalityEntry = $SelectionMenu/entity2Block/entityPersonalityEntry
+
+onready var selectionMenuSubmitButton = $SelectionMenu/selectionMenuSubmit
+
+
 ############################### BASE FUNCTIONS ###############################
 func _ready():
-	var rngHash = "Godot"
 	rng.seed = hash("Godot")
-	print(
-	"""
-	The current seed is a hash of the string: "{hash}" 
-	The resulting seed is: {seed}
-	""".format({"hash":rngHash, "seed":rng.seed})
-	)
 	
-	entitySetup(entities)
+	print(welcome_message)
+	print(rng_message)
 	
-	addToOutputQueue("introduction", introductionMessageCreator())
+	current_program_state = program_states[0]
 	
 func _process(delta):
-	pass
+	if current_program_state == program_states[0]:
+		
+		#True temporarily
+		var readyToSubmit = true
+		
+		for selection in selection_filled_states:
+			if selection == true:
+				pass
+			else:
+				readyToSubmit = false
+				selectionMenuSubmitButton.disabled = true
+				break
+				
+		if readyToSubmit:
+			selectionMenuSubmitButton.disabled = false	
 	
 ############################### GUI FUNCTIONS ###############################
+
+func entity1NameSelectionStateChecker(newText):
+	allInputNames["0"] = newText
 	
+	if entity1NameEntry.text.length() >= 3:
+		selection_filled_states[0] = true
+	else: 
+		selection_filled_states[0] = false
+		
+func entity1PersonalitySelectionStateChecker(_selectedItemIndex):
+	if entity1PersonalityEntry.is_anything_selected():
+		selection_filled_states[1] = true
+	else:
+		selection_filled_states[1] = false
+		
+func entity2NameSelectionStateChecker(newText):
+	allInputNames["1"] = newText
+	
+	if entity2NameEntry.text.length() >= 3:
+		selection_filled_states[2] = true
+	else: 
+		selection_filled_states[2] = false
+
+func entity2PersonalitySelectionStateChecker(_selectedItemIndex):
+	if entity2PersonalityEntry.is_anything_selected():
+		selection_filled_states[3] = true
+	else:
+		selection_filled_states[3] = false
+		
+func submitSelectionMenu():
+	entitySetup(entities)
+	addToOutputQueue("introduction", introductionMessageCreator())
+	current_program_state = program_states[1]
+	selectionMenu.visible = false
+	outputStream.visible = true
+	generateButton.disabled = false
+	
+
 func _on_GenerateButton_toggled(button_pressed):	
 	if button_pressed:
 		print("Resuming generation now.")
 		approvalToGenerate = true
+		current_program_state = program_states[2]
 		$GenerateButton.text = "Generating Conversation"
 	elif !button_pressed:
 		print("Stopping generation now.")
 		approvalToGenerate = false
+		current_program_state = program_states[3]
 		$GenerateButton.text = "Generation Paused"
 
 ############################### ENTITY FUNCTIONS ###############################
 
 func entitySetup(entityDict):
+	entityNameSetup()
+	entityPersonalitySetup()
 	entityPersonalityProfileSetup(entityDict)
 	entityActionConceptsSetup(entityDict)
+			
+##################
+# BOTH OF THESE FUNCTIONS WILL HAVE TO BE REWRITTEN FOR THE NON-GUI AND API VERSIONS
+func entityNameSetup():
+	entities["Entity1"]["Name"].push_back(allInputNames["0"])
+	entities["Entity2"]["Name"].push_back(allInputNames["1"])
+
+func entityPersonalitySetup():
+	entities["Entity1"]["Personality"].push_back(entity1PersonalityEntry.get_item_text(entity1PersonalityEntry.get_selected_items()[0]))
+	entities["Entity2"]["Personality"].push_back(entity2PersonalityEntry.get_item_text(entity2PersonalityEntry.get_selected_items()[0]))
+
+	
+##################
 
 func entityPersonalityProfileSetup(entityDict):
 	var arrayOfEntityNames = returnArrayOfNamesOfAllEntitiesInEntityDict(entityDict)
@@ -257,7 +368,6 @@ func entityActionConceptsSetup(entityDict):
 	
 	for current_entity in arrayOfEntityNames:
 		entityDict[current_entity]["ActionConcepts"] = returnFreshActionConceptDict()
-		print(entityDict[current_entity]["ActionConcepts"])
 
 func returnFreshActionConceptDict():
 	return actionConcepts
@@ -307,6 +417,10 @@ func returnQueueStateForPrinting(infoNeeded):
 		return jobQueue[0][0]
 	
 func _on_QueueWorkerCheckForWorkTimer_timeout():
+	queueCheckForWorkTimerTimeoutCounter += 1
+	print("Output: %s" % queueCheckForWorkTimerTimeoutCounter)
+	print("The current program_state is: %s" % current_program_state)
+	
 	if !jobQueue.empty() and approvalToGenerate:
 		print("Performing next job.")
 		performOutputJob(jobQueue[0])
@@ -314,7 +428,7 @@ func _on_QueueWorkerCheckForWorkTimer_timeout():
 	else: 
 		# print("The jobQueue is currently: %s" % returnQueueStateForPrinting("entireQueue"))
 		print("Next in jobQueue is currently: %s" % returnQueueStateForPrinting("nextInQueue"))
-		print("Approval to generate is: %s" % approvalToGenerate)
+		print("Approval to generate is: %s\n" % approvalToGenerate)
 
 func introductionMessageCreator():
 	# Will be updated in version 0.02 to support an arbitrary amount of entities.
