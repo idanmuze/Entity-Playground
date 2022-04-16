@@ -27,6 +27,7 @@ var program_states = [
 	"conversation_completed"]
 var current_program_state
 
+#If all are true and current_program_state == entering_entity_values, the generate button becomes availiable.
 var selection_filled_states = [false, false, false, false]
 
 
@@ -68,62 +69,6 @@ var entities = {
 		"ActionConcepts" : {}
 	},
 
-}
-
-# 12 for now. More will be added in version 0.02
-var actionConcepts = {
-	"Complain": {
-		"referencing_what" : null,
-		"complain_about" : null
-	},
-	"Celebrate": {
-		"referencing_what" : null,
-		"celebrate_what" : null
-	},
-	"Joke": {
-		"referencing_what" : null,
-		"joke_about" : null
-	},
-	"Ponder": {
-		"referencing_what" : null,
-		"ponder_what" : null
-	},
-	"Dismiss": {
-		"referencing_what" : null,
-		"dismiss_what" : null
-	},
-	"Taunt": {
-		"referencing_what" : null,
-		"taunt_about" : null
-	},
-	"Insult": {
-		"referencing_what" : null,
-		"insult_what" : null,
-		"insult_who" : null
-	},
-	"Choose": {
-		"referencing_what" : null,
-		"choose_what" : null,
-		"options" : [null, null]
-	},
-	"Dodge": {
-		"referencing_what" : null,
-		"dodge_what" : null,
-		"why_dodge" : null,
-	},
-	"Apologize": {
-		"referencing_what" : null,
-		"apologize_about" : null
-	},
-	"Lie": {
-		"referencing_what" : null,
-		"lie_about" : null,
-	},
-	"Comfort": {
-		"referencing_what" : null,
-		"comfort_concerning" : null
-		
-	}
 }
 
 var personalityTypeProfiles = {
@@ -213,27 +158,369 @@ var personalityTypeProfiles = {
 	},
 }
 
-var topicPersonalityProfiles = {
-	
+# 12 for now. More will be added in version 0.02
+# Each entity has a copy of this that morphs as the conversation flows.
+var actionConcepts = {
+	"Complain": {
+		"referencing_what" : null,
+		"complain_about" : null
+	},
+	"Celebrate": {
+		"referencing_what" : null,
+		"celebrate_what" : null
+	},
+	"Joke": {
+		"referencing_what" : null,
+		"joke_about" : null
+	},
+	"Ponder": {
+		"referencing_what" : null,
+		"ponder_what" : null
+	},
+	"Dismiss": {
+		"referencing_what" : null,
+		"dismiss_what" : null
+	},
+	"Taunt": {
+		"referencing_what" : null,
+		"taunt_about" : null
+	},
+	"Insult": {
+		"referencing_what" : null,
+		"insult_what" : null,
+		"insult_who" : null
+	},
+	"Choose": {
+		"referencing_what" : null,
+		"choose_what" : null,
+		"options" : [null, null]
+	},
+	"Dodge": {
+		"referencing_what" : null,
+		"dodge_what" : null,
+		"why_dodge" : null,
+	},
+	"Apologize": {
+		"referencing_what" : null,
+		"apologize_about" : null
+	},
+	"Lie": {
+		"referencing_what" : null,
+		"lie_about" : null,
+	},
+	"Comfort": {
+		"referencing_what" : null,
+		"comfort_concerning" : null
+		
+	}
 }
 
 # Variations of action concepts that. Utilized according to the personality type profiles.
 var actionConceptToSpeechDict = {
 	"Complain" : {
-		"severe_complain" : "",
-		"celebratory_complain" : "",
-		"jokey_complain" : "",
-		"ponderous_complain" : "",
-		"dismissive_complain": "",
-		"taunting_complain" : "",
-		"insulting_complain" : "",
-		"choosey_complain" : "",
-		"dodge_complain" : "",
-		"apologetic_complain" : "",
-		"lying_complain" : "",
-		"comforting_complain" : ""
+		"severe_complain" : {
+			"utterance" : "",
+			"retort" : ""
+			# "question": "" ???
+		},
+		"celebratory_complain" : {
+			"utterance" : "",
+			"retort" : ""
+		},
+		"jokey_complain" : {
+			"utterance" : "",
+			"retort" : ""
+		},
+		"ponderous_complain" : {
+			"utterance" : "",
+			"retort" : ""
+		},
+		"dismissive_complain": {
+			"utterance" : "",
+			"retort" : ""
+		},
+		"taunting_complain" : {
+			"utterance" : "",
+			"retort" : ""
+		},
+		"insulting_complain" : {
+			"utterance" : "",
+			"retort" : ""
+		},
+		"choosey_complain" : {
+			"utterance" : "",
+			"retort" : ""
+		},
+		"dodge_complain" : {
+			"utterance" : "",
+			"retort" : ""
+		},
+		"apologetic_complain" : {
+			"utterance" : "",
+			"retort" : ""
+		},
+		"lying_complain" : {
+			"utterance" : "",
+			"retort" : ""
+		},
+		"comforting_complain" : {
+			"utterance" : "",
+			"retort" : ""
+		}
 	}
 }
+
+# The will be added to all utterances and retorts to make the speech more natural.
+# Three each for now. Will go up to ten.
+var affirmAndContestDict = {
+	"Affirmations": [
+		{
+			"before": "Exactly.",
+			"after" : ""
+		},
+		{
+			"before": "Right.",
+			"after" : ""
+		},
+		{
+			"before": "",
+			"after" : "That's exactly right."
+		}
+	],
+	"Contests" : [
+		{
+			"before": "I don't know about that.",
+			"after" : ""
+		},
+		{
+			"before": "I don't know.",
+			"after" : ""
+		},
+		{
+			"before": "",
+			"after" : "Wouldn't you say?"
+		}
+	]
+}
+
+var topicDict = {
+	"Topic1" : {
+		"Name" : "entitiesCanNotSeeEachOther",
+		"Subject1" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject2" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject3" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject4" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject5" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject6" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject7" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject8" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject9" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject10" : {
+			"Data": "",
+			"Profile": ""
+		}
+	},
+	"Topic2" : {
+		"Name" : "entityHasBeenWanderingForALongTime",
+		"Subject1" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject2" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject3" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject4" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject5" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject6" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject7" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject8" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject9" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject10" : {
+			"Data": "",
+			"Profile": ""
+		}
+	},
+	"Topic3" : {
+		"Name" : "entityDoesNotKnowWhatItLooksLike",
+		"Subject1" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject2" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject3" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject4" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject5" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject6" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject7" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject8" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject9" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject10" : {
+			"Data": "",
+			"Profile": ""
+		}
+	},
+	"Topic4" : {
+		"Name" : "entityDoesNotHaveAnyFriends",
+		"Subject1" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject2" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject3" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject4" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject5" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject6" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject7" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject8" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject9" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject10" : {
+			"Data": "",
+			"Profile": ""
+		}
+	},
+	"Topic5" : {
+		"Name" : "entityDoesNotKnowWhereTheyAre",
+		"Subject1" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject2" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject3" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject4" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject5" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject6" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject7" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject8" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject9" : {
+			"Data": "",
+			"Profile": ""
+		},
+		"Subject10" : {
+			"Data": "",
+			"Profile": ""
+		}
+	}
+}
+
 
 ############################### GUI VARIABLES ###############################
 onready var outputStream = $OutputText
@@ -391,6 +678,11 @@ func returnArrayOfNamesOfAllEntitiesInEntityDict(entityDict):
 
 func returnPersonalityProfile(personality):
 	return personalityTypeProfiles.get(personality[0])
+
+############################### CONVERSATION FUNCTIONS (SOLUTION 2) ###############################
+# (This is where the magic happens)
+
+
 
 ############################### OUTPUT FUNCTIONS ###############################
 
