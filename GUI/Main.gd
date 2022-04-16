@@ -218,56 +218,749 @@ var actionConcepts = {
 # Variations of action concepts that. Utilized according to the personality type profiles.
 var actionConceptToSpeechDict = {
 	"Complain" : {
-		"severe_complain" : {
-			"utterance" : "",
-			"retort" : ""
-			# "question": "" ???
+		"standard_complain" : {
+			"utterance" : "We're talking about {referencing_what} here. {complain_about}?! Yikes.",
+			"retort" :    "We're talking about {referencing_what} here. {complain_about}?! Yikes.",
+			"question":   "We're talking about {referencing_what} here. {complain_about}?! Isn't that a mess?" 
 		},
 		"celebratory_complain" : {
-			"utterance" : "",
-			"retort" : ""
+			"utterance" : "Though {referecing_what}'s {complain_about} isn't the best. I've found that {referencing_what}'s with the issue tend to end up being cool anyway.",
+			"retort" :    "I mean. Though {referencing_what}'s {complain_about} isn't the best. I've found that {referencing_what}'s with the issue tend to end up being cool anyway.",
+			"question" : "{referecing_what}'s {complain_about} isn't the best. Don't {referencing_what}'s with the issue tend to end up being cool anyway?"
 		},
 		"jokey_complain" : {
-			"utterance" : "",
-			"retort" : ""
+			"utterance" : "{referencing_what} doesn't have issues, well, save for its {complain_about}... Yikes.",
+			"retort" :    "{referencing_what} doesn't have issues, well, save for its {complain_about}... Yikes.",
+			"question" : "{referencing_what} doesn't have issues, well, save for its {complain_about}... Yikes. Why is that such a mess?"
 		},
 		"ponderous_complain" : {
 			"utterance" : "",
-			"retort" : ""
+			"retort" :    "",
+			"question" : ""
 		},
 		"dismissive_complain": {
 			"utterance" : "",
-			"retort" : ""
+			"retort" :    "",
+			"question" : ""
 		},
 		"taunting_complain" : {
 			"utterance" : "",
-			"retort" : ""
+			"retort" :    "",
+			"question" : ""
 		},
 		"insulting_complain" : {
 			"utterance" : "",
-			"retort" : ""
+			"retort" :    "",
+			"question" : ""
 		},
 		"choosey_complain" : {
 			"utterance" : "",
-			"retort" : ""
+			"retort" :    "",
+			"question" : ""
 		},
 		"dodge_complain" : {
 			"utterance" : "",
-			"retort" : ""
+			"retort" :    "",
+			"question" : ""
 		},
 		"apologetic_complain" : {
 			"utterance" : "",
-			"retort" : ""
+			"retort" :    "",
+			"question" : ""
 		},
 		"lying_complain" : {
 			"utterance" : "",
-			"retort" : ""
+			"retort" :    "",
+			"question" : ""
 		},
 		"comforting_complain" : {
 			"utterance" : "",
-			"retort" : ""
+			"retort" :    "",
+			"question" : ""
 		}
-	}
+	},
+	"Celebrate" : {
+		"complain_celebrate" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question":   "" 
+		},
+		"standard_celebrate" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"jokey_celebrate" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"ponderous_celebrate" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"dismissive_celebrate": {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"taunting_celebrate" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"insulting_celebrate" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"choosey_celebrate" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"dodge_celebrate" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"apologetic_celebrate" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"lying_celebrate" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"comforting_celebrate" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		}
+	},
+	"Joke" : {
+		"complain_joke" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question":   "" 
+		},
+		"celebratory_joke" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"standard_joke" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"ponderous_joke" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"dismissive_joke": {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"taunting_joke" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"insulting_joke" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"choosey_joke" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"dodge_joke" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"apologetic_joke" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"lying_joke" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"comforting_joke" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		}
+	},
+	"Ponder" : {
+		"complain_ponder" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question":   "" 
+		},
+		"celebratory_ponder" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"joke_ponder" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"standard_ponder" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"dismissive_ponder": {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"taunting_ponder" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"insulting_ponder" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"choosey_ponder" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"dodge_ponder" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"apologetic_ponder" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"lying_ponder" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"comforting_ponder" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		}
+	},
+	"Dismiss" : {
+		"complain_dismiss" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question":   "" 
+		},
+		"celebratory_dismiss" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"joke_dismiss" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"ponderous_dismiss" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"standard_dismiss": {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"taunting_dismiss" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"insulting_dismiss" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"choosey_dismiss" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"dodge_dismiss" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"apologetic_dismiss" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"lying_dismiss" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"comforting_dismiss" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		}
+	},
+	"Taunt" : {
+		"complain_taunt" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question":   "" 
+		},
+		"celebratory_taunt" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"joke_taunt" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"ponderous_taunt" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"dimissive_taunt": {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"standard_taunt" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"insulting_taunt" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"choosey_taunt" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"dodge_taunt" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"apologetic_taunt" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"lying_taunt" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"comforting_taunt" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		}
+	},
+	"Insult" : {
+		"complain_insult" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question":   "" 
+		},
+		"celebratory_insult" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"joke_insult" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"ponderous_insult" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"dimissive_insult": {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"taunting_insult" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"standard_insult" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"choosey_insult" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"dodge_insult" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"apologetic_insult" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"lying_insult" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"comforting_insult" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		}
+	},
+	"Choose" : {
+		"complain_choose" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question":   "" 
+		},
+		"celebratory_choose" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"joke_choose" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"ponderous_choose" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"dimissive_choose": {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"taunting_choose" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"insult_choose" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"standard_choose" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"dodge_choose" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"apologetic_choose" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"lying_choose" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"comforting_choose" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		}
+	},
+	"Dodge" : {
+		"complain_dodge" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question":   "" 
+		},
+		"celebratory_dodge" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"joke_dodge" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"ponderous_dodge" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"dimissive_dodge": {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"taunting_dodge" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"insult_dodge" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"choosey_dodge" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"standard_dodge" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"apologetic_dodge" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"lying_dodge" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"comforting_dodge" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		}
+	},
+	"Apologize" : {
+		"complain_apologize" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question":   "" 
+		},
+		"celebratory_apologize" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"joke_apologize" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"ponderous_apologize" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"dimissive_apologize": {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"taunting_apologize" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"insult_apologize" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"choosey_apologize" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"dodge_apologize" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"standard_apologize" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"lying_apologize" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"comforting_apologize" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		}
+	},
+	"Lie" : {
+		"complain_lie" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question":   "" 
+		},
+		"celebratory_lie" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"joke_lie" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"ponderous_lie" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"dimissive_lie": {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"taunting_lie" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"insult_lie" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"choosey_lie" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"dodge_lie" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"apologetic_lie" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"standard_lie" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"comforting_lie" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		}
+	},
+	"Comfort" : {
+		"complain_comfort" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question":   "" 
+		},
+		"celebratory_comfort" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"joke_comfort" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"ponderous_comfort" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"dimissive_comfort": {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"taunting_comfort" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"insult_comfort" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"choosey_comfort" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"dodge_comfort" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"apologetic_comfort" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"lying_comfort" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		},
+		"standard_comfort" : {
+			"utterance" : "",
+			"retort" :    "",
+			"question" : ""
+		}
+	},
 }
 
 # The will be added to all utterances and retorts to make the speech more natural.
