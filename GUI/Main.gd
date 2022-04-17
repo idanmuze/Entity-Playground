@@ -215,7 +215,7 @@ var actionConcepts = {
 	}
 }
 
-# Variations of action concepts that. Utilized according to the personality type profiles.
+# Variations of action concepts. Utilized according to the personality type profiles.
 var actionConceptToSpeechDict = {
 	"Complain" : {
 		"standard_complain" : {
@@ -226,17 +226,17 @@ var actionConceptToSpeechDict = {
 		"celebratory_complain" : {
 			"utterance" : "Though {referecing_what}'s {complain_about} isn't the best. I've found that {referencing_what}'s with the issue tend to end up being cool anyway.",
 			"retort" :    "I mean. Though {referencing_what}'s {complain_about} isn't the best. I've found that {referencing_what}'s with the issue tend to end up being cool anyway.",
-			"question" : "{referecing_what}'s {complain_about} isn't the best. Don't {referencing_what}'s with the issue tend to end up being cool anyway?"
+			"question" :  "{referecing_what}'s {complain_about} isn't the best. Don't {referencing_what}'s with the issue tend to end up being cool anyway?"
 		},
 		"jokey_complain" : {
 			"utterance" : "{referencing_what} doesn't have issues, well, save for its {complain_about}... Yikes.",
 			"retort" :    "{referencing_what} doesn't have issues, well, save for its {complain_about}... Yikes.",
-			"question" : "{referencing_what} doesn't have issues, well, save for its {complain_about}... Yikes. Why is that such a mess?"
+			"question" :  "{referencing_what} doesn't have issues, well, save for its {complain_about}... Yikes. Why is that such a mess?"
 		},
 		"ponderous_complain" : {
 			"utterance" : "",
 			"retort" :    "",
-			"question" : ""
+			"question" :  ""
 		},
 		"dismissive_complain": {
 			"utterance" : "",
