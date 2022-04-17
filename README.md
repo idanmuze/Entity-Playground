@@ -1,6 +1,6 @@
 # Entity-Playground ![Godot 3.4](https://img.shields.io/badge/godot-v3.4-%23478cbf)
 
-![Entity-Playground Icon](https://i.imgur.com/b0nbMuDh.png)
+![Entity-Playground Icon](https://i.imgur.com/b0nbMuDb.png)
 
 FPS template for Godot to give starter content for a new or already existing project!
 
